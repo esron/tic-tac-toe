@@ -2,43 +2,84 @@
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="#">Logo</a>
+      <a class="navbar-brand" href="#">Tic tac toe</a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
     </div>
   </div>
 </nav>
   
-<div class="container-fluid text-center">    
-  <div class="row content">
-    <div class="col-sm-4 sidenav"></div>
-    <div class="col-sm-4 text-center"> 
-      <table class="table table-bordered">
-            <thead>
-              <tr>
-                <th colspan="3" class="text-center">Tic Tac Toe</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="c00"><input type="button" class="btn btn-lg" value="x"></td>
-                <td class="c01"><input type="button" class="btn btn-lg" value=""></td>
-                <td class="c02"><input type="button" class="btn btn-lg" value=""></td>
-              </tr>
-              <tr>
-                <td class="c10"><input type="button" class="btn btn-lg" value=""></td>
-                <td class="c11"><input type="button" class="btn btn-lg" value=""></td>
-                <td class="c12"><input type="button" class="btn btn-lg" value=""></td>
-              </tr>
-              <tr>
-                <td class="c20"><input type="button" class="btn btn-lg" value=""></td>
-                <td class="c21"><input type="button" class="btn btn-lg" value=""></td>
-                <td class="c22"><input type="button" class="btn btn-lg" value=""></td>
-              </tr>
-            </tbody>
-          </table>
+<div class="container text-center">    
+  <div class="row">
+    <div class="col-sm-3">
+      <div class="form-group">
+        <label for="sel1">Selecionar modo:</label>
+        <select class="form-control" id="sel1">
+          <option>2 jogadores</option>
+          <option>1 jogador</option>
+        </select>
+      </div>
+      <input type="button" class="btn" (click)="resetBoard()" value="Limpar Tabuleiro">
     </div>
-    <div class="col-sm-4 sidenav"></div>
+    <div class="col-sm-6 text-center"> 
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th colspan="3" class="text-center">Jogando: {{player}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="c00"><input type="button" [class]="cellColor(board[0][0])"
+              value="{{ board[0][0] }}" (click)="play(0, 0)" [disabled]="buttonsActive"></td>
+            <td class="c01"><input type="button" [class]="cellColor(board[0][1])"
+              value="{{ board[0][1] }}" (click)="play(0, 1)" [disabled]="buttonsActive"></td>
+            <td class="c02"><input type="button" [class]="cellColor(board[0][2])" 
+              value="{{ board[0][2] }}" (click)="play(0, 2)" [disabled]="buttonsActive"></td>
+          </tr>
+          <tr>
+            <td class="c10"><input type="button" [class]="cellColor(board[1][0])" 
+              value="{{ board[1][0] }}" (click)="play(1, 0)" [disabled]="buttonsActive"></td>
+            <td class="c11"><input type="button" [class]="cellColor(board[1][1])" 
+              value="{{ board[1][1] }}" (click)="play(1, 1)" [disabled]="buttonsActive"></td>
+            <td class="c12"><input type="button" [class]="cellColor(board[1][2])" 
+              value="{{ board[1][2] }}" (click)="play(1, 2)" [disabled]="buttonsActive"></td>
+          </tr>
+          <tr>
+            <td class="c20"><input type="button" [class]="cellColor(board[2][0])" 
+              value="{{ board[2][0] }}" (click)="play(2, 0)" [disabled]="buttonsActive"></td>
+            <td class="c21"><input type="button" [class]="cellColor(board[2][1])" 
+              value="{{ board[2][1] }}" (click)="play(2, 1)" [disabled]="buttonsActive"></td>
+            <td class="c22"><input type="button" [class]="cellColor(board[2][2])" 
+              value="{{ board[2][2] }}" (click)="play(2, 2)" [disabled]="buttonsActive"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-sm-3">
+      <h1>Placar</h1>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th class="text-center">X</th>
+            <th class="text-center">O</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="text-center"> {{ xScore }} </td>
+            <td class="text-center"> {{ oScore }} </td>
+          </tr>
+        </tbody>
+      </table> 
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-6">
+      <h2>{{ winMessage }}</h2>
+    </div>
+    <div class="col-sm-3"></div>
   </div>
 </div>
 
