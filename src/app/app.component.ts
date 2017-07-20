@@ -48,25 +48,22 @@ export class AppComponent {
 
   // Chega se ha alguma vitória, retorna verdadeiro em caso de vitória.
   checkWin() {
-    
-    // Checar linhas
     for(let i = 0; i < 3; i++) {
+      // Checar linhas
       if(this.board[i][0] == this.board[i][1] && this.board[i][0] == this.board[i][2]
         && (this.board[i][0] == 'X' || this.board[i][0] == 'O')) {
         this.winMessage = "Vitoria do Jogador " + this.board[i][0];
-        this.xScore = this.board[i][0] == 'X' ? this.xScore + 1:this.xScore;
-        this.oScore = this.board[i][0] == 'O' ? this.oScore + 1:this.oScore;
+        this.xScore = this.board[i][0] == 'X' ? this.xScore + 1 : this.xScore;
+        this.oScore = this.board[i][0] == 'O' ? this.oScore + 1 : this.oScore;
         return true;
       }
-    }
 
-    // Checar colunas
-    for(let i = 0; i < 3; i++) {
-      if(this.board[i][0] == this.board[i][1] && this.board[i][0] == this.board[i][2]
-        && (this.board[i][0] == 'X' || this.board[i][0] == 'O')) {
-        this.winMessage = "Vitoria do Jogador " + this.board[i][0];
-        this.xScore = this.board[i][0] == 'X' ? this.xScore + 1:this.xScore;
-        this.oScore = this.board[i][0] == 'O' ? this.oScore + 1:this.oScore;
+      // Checar colunas
+      if(this.board[0][i] == this.board[1][i] && this.board[2][i] == this.board[i][2]
+        && (this.board[0][i] == 'X' || this.board[0][i] == 'O')) {
+        this.winMessage = "Vitoria do Jogador " + this.board[0][i];
+        this.xScore = this.board[0][i] == 'X' ? this.xScore + 1 : this.xScore;
+        this.oScore = this.board[0][i] == 'O' ? this.oScore + 1 : this.oScore;
         return true;
       }
     }
