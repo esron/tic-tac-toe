@@ -52,21 +52,32 @@ export class AppComponent {
       // Checar linhas
       if(this.board[i][0] == this.board[i][1] && this.board[i][0] == this.board[i][2]
         && (this.board[i][0] == 'X' || this.board[i][0] == 'O')) {
-        this.winMessage = "Vitoria do Jogador " + this.board[i][0];
+        this.winMessage = "Vitória do Jogador " + this.board[i][0];
         this.xScore = this.board[i][0] == 'X' ? this.xScore + 1 : this.xScore;
         this.oScore = this.board[i][0] == 'O' ? this.oScore + 1 : this.oScore;
         return true;
       }
 
       // Checar colunas
-      if(this.board[0][i] == this.board[1][i] && this.board[2][i] == this.board[i][2]
+      if(this.board[0][i] == this.board[1][i] && this.board[0][i] == this.board[2][i]
         && (this.board[0][i] == 'X' || this.board[0][i] == 'O')) {
-        this.winMessage = "Vitoria do Jogador " + this.board[0][i];
+        this.winMessage = "Vitória do Jogador " + this.board[0][i];
         this.xScore = this.board[0][i] == 'X' ? this.xScore + 1 : this.xScore;
         this.oScore = this.board[0][i] == 'O' ? this.oScore + 1 : this.oScore;
         return true;
       }
     }
+
+    // Checar diagonais
+    if(((this.board[0][0] == this.board[1][1] && this.board[0][0] == this.board[2][2])
+      || (this.board[0][2] == this.board[1][1] && this.board[0][2] == this.board[2][0]))
+      && (this.board[1][1] == 'X' || this.board[1][1] == 'O')) {
+        this.winMessage = "Vitória do Jogador " + this.board[1][1];
+        this.xScore = this.board[1][1] == 'X' ? this.xScore + 1 : this.xScore;
+        this.oScore = this.board[1][1] == 'O' ? this.oScore + 1 : this.oScore;
+        return true;
+    }
+    return false;
   }
 
   cellColor(symbol: string) {
