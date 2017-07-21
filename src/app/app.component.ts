@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 
+import { Player2Service } from './player-2.service';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -13,18 +15,34 @@ export class AppComponent {
   showWinMessage:boolean = false;
   winMessage:string = "";
   buttonsActive:string = "";
+
+  // Escolhe entre os modos de dois jogadores e 1 jogador
+  selectedGameMode:string = "2 jogadores";
   board: string[][] = [[' ', ' ', ' '], [' ', ' ', ' '], [' ', ' ', ' ']];
 
-  color = "btn btn-lg btn-info"
+  constructor (private player2: Player2Service) {
+
+  }
 
   play(lin: number, col:number) {
     if(this.board[lin][col] == ' '){
       this.board[lin][col] = this.player;
-      if(this.player == 'X')
-        this.player = "O";
-      else
-        this.player = 'X';
+      if (this.selectedGameMode == "2 jogadores") {
+        if(this.player == 'X')
+          this.player = 'O';
+        else
+          this.player = 'X';
+      }
+      else {
+        if(this.player == 'X') {
+          this.player = 'O';
+          let arr = this.player2.play(this.board);
+          this.board[arr[0]][arr[1]] = this.player;
+          this.player = 'X';
+        }
+      }
     }
+    
     if(this.checkWin())
       this.buttonsActive = "disabled";
   }
@@ -77,7 +95,16 @@ export class AppComponent {
         this.oScore = this.board[1][1] == 'O' ? this.oScore + 1 : this.oScore;
         return true;
     }
-    return false;
+
+    // Checar empate
+    for(let i = 0; i < 3; i++)
+      for(let j = 0; j < 3; j++){
+        if(this.board[i][j] == ' ')
+          return false;
+      }
+
+    this.winMessage = "Empate";
+    return true;
   }
 
   cellColor(symbol: string) {

@@ -1,8 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { AlertModule } from 'ngx-bootstrap';
+import { Player2Service } from './player-2.service';
 
 @NgModule({
   declarations: [
@@ -10,9 +12,10 @@ import { AlertModule } from 'ngx-bootstrap';
   ],
   imports: [
     AlertModule.forRoot(),
-    BrowserModule
+    BrowserModule,
+    FormsModule
   ],
-  providers: [],
+  providers: [Player2Service],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

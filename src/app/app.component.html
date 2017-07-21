@@ -14,7 +14,8 @@
     <div class="col-sm-3">
       <div class="form-group">
         <label for="sel1">Selecionar modo:</label>
-        <select class="form-control" id="sel1">
+        <select class="form-control" id="sel1" [(ngModel)]="selectedGameMode"
+          (ngModelChange)="resetBoard()">
           <option>2 jogadores</option>
           <option>1 jogador</option>
         </select>
@@ -71,7 +72,8 @@
             <td class="text-center"> {{ oScore }} </td>
           </tr>
         </tbody>
-      </table> 
+      </table>
+      <input type="button" class="btn" value="Limpar Placar" (click)="resetScore()">
     </div>
   </div>
   <div class="row">
