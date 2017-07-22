@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 import { Player2Service } from './player-2.service';
+import { State } from './state';
 
 @Component({
   selector: 'app-root',
@@ -18,26 +19,29 @@ export class AppComponent {
 
   // Escolhe entre os modos de dois jogadores e 1 jogador
   selectedGameMode:string = "2 jogadores";
-  board: string[][] = [[' ', ' ', ' '], [' ', ' ', ' '], [' ', ' ', ' ']];
+  mainState: State;
 
   constructor (private player2: Player2Service) {
-
+    this.mainState = new State([[' ', ' ', ' '], [' ', ' ', ' '], [' ', ' ', ' ']], 0, null, [0, 0]);
   }
 
   play(lin: number, col:number) {
-    if(this.board[lin][col] == ' '){
-      this.board[lin][col] = this.player;
+    if(this.mainState.board[lin][col] == ' '){
+      this.mainState.board[lin][col] = this.player;
       if (this.selectedGameMode == "2 jogadores") {
         if(this.player == 'X')
           this.player = 'O';
         else
           this.player = 'X';
+        this.mainState.setPlayed(lin, col);
+        console.log(this.mainState.toString());
       }
       else {
         if(this.player == 'X') {
           this.player = 'O';
-          let arr = this.player2.play(this.board);
-          this.board[arr[0]][arr[1]] = this.player;
+          this.mainState.setPlayed(lin, col);
+          let arr = this.player2.play(this.mainState.board);
+          this.mainState.board[arr[0]][arr[1]] = this.player;
           this.player = 'X';
         }
       }
@@ -48,7 +52,7 @@ export class AppComponent {
   }
 
   resetBoard() {
-    this.board = [[' ', ' ', ' '], [' ', ' ', ' '], [' ', ' ', ' ']];
+    this.mainState.board = [[' ', ' ', ' '], [' ', ' ', ' '], [' ', ' ', ' ']];
     this.player = "X";
     this.winMessage = "";
     this.buttonsActive = "";
@@ -64,42 +68,43 @@ export class AppComponent {
     this.resetScore();
   }
 
-  // Chega se ha alguma vitória, retorna verdadeiro em caso de vitória.
+  // Chega se ha alguma vitória, retorna verdadeiro em caso de vitória ou empate.
+  // Atualiza os elementos da interface
   checkWin() {
     for(let i = 0; i < 3; i++) {
       // Checar linhas
-      if(this.board[i][0] == this.board[i][1] && this.board[i][0] == this.board[i][2]
-        && (this.board[i][0] == 'X' || this.board[i][0] == 'O')) {
-        this.winMessage = "Vitória do Jogador " + this.board[i][0];
-        this.xScore = this.board[i][0] == 'X' ? this.xScore + 1 : this.xScore;
-        this.oScore = this.board[i][0] == 'O' ? this.oScore + 1 : this.oScore;
+      if(this.mainState.board[i][0] == this.mainState.board[i][1] && this.mainState.board[i][0] == this.mainState.board[i][2]
+        && (this.mainState.board[i][0] == 'X' || this.mainState.board[i][0] == 'O')) {
+        this.winMessage = "Vitória do Jogador " + this.mainState.board[i][0];
+        this.xScore = this.mainState.board[i][0] == 'X' ? this.xScore + 1 : this.xScore;
+        this.oScore = this.mainState.board[i][0] == 'O' ? this.oScore + 1 : this.oScore;
         return true;
       }
 
       // Checar colunas
-      if(this.board[0][i] == this.board[1][i] && this.board[0][i] == this.board[2][i]
-        && (this.board[0][i] == 'X' || this.board[0][i] == 'O')) {
-        this.winMessage = "Vitória do Jogador " + this.board[0][i];
-        this.xScore = this.board[0][i] == 'X' ? this.xScore + 1 : this.xScore;
-        this.oScore = this.board[0][i] == 'O' ? this.oScore + 1 : this.oScore;
+      if(this.mainState.board[0][i] == this.mainState.board[1][i] && this.mainState.board[0][i] == this.mainState.board[2][i]
+        && (this.mainState.board[0][i] == 'X' || this.mainState.board[0][i] == 'O')) {
+        this.winMessage = "Vitória do Jogador " + this.mainState.board[0][i];
+        this.xScore = this.mainState.board[0][i] == 'X' ? this.xScore + 1 : this.xScore;
+        this.oScore = this.mainState.board[0][i] == 'O' ? this.oScore + 1 : this.oScore;
         return true;
       }
     }
 
     // Checar diagonais
-    if(((this.board[0][0] == this.board[1][1] && this.board[0][0] == this.board[2][2])
-      || (this.board[0][2] == this.board[1][1] && this.board[0][2] == this.board[2][0]))
-      && (this.board[1][1] == 'X' || this.board[1][1] == 'O')) {
-        this.winMessage = "Vitória do Jogador " + this.board[1][1];
-        this.xScore = this.board[1][1] == 'X' ? this.xScore + 1 : this.xScore;
-        this.oScore = this.board[1][1] == 'O' ? this.oScore + 1 : this.oScore;
+    if(((this.mainState.board[0][0] == this.mainState.board[1][1] && this.mainState.board[0][0] == this.mainState.board[2][2])
+      || (this.mainState.board[0][2] == this.mainState.board[1][1] && this.mainState.board[0][2] == this.mainState.board[2][0]))
+      && (this.mainState.board[1][1] == 'X' || this.mainState.board[1][1] == 'O')) {
+        this.winMessage = "Vitória do Jogador " + this.mainState.board[1][1];
+        this.xScore = this.mainState.board[1][1] == 'X' ? this.xScore + 1 : this.xScore;
+        this.oScore = this.mainState.board[1][1] == 'O' ? this.oScore + 1 : this.oScore;
         return true;
     }
 
     // Checar empate
     for(let i = 0; i < 3; i++)
       for(let j = 0; j < 3; j++){
-        if(this.board[i][j] == ' ')
+        if(this.mainState.board[i][j] == ' ')
           return false;
       }
 

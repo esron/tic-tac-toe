@@ -8,45 +8,35 @@ export class Player2Service {
   constructor() { }
 
   play(board:string[][]) {
-    // let currentState: State = new State(board, 0, null);
-    let currentState: State = new State([board[0], board[1], board[2]], 0, null, [0, 0]);
-    console.log("Estado inicial\n" + currentState.toString());
+    let currentState: State = new State(board, 0, null, [0, 0]);
 
-    currentState.getChilds().forEach(child => {
-      console.log(child.toString());
-    });
+    let bestNode:State = this.minimax(currentState, currentState.gn, true);
 
-    return [1, 1];
+    return bestNode.played;
   }
 
-  isTerminalNode(board) {
-    for(let i = 0; i < 3; i++) {
-      // Checar linhas
-      if(board[i][0] == board[i][1] && board[i][0] == board[i][2]
-        && (board[i][0] == 'X' || board[i][0] == 'O')) {
-        return true;
-      }
+  minimax(node: State, depth:number, maximizingPlayer:boolean) {
 
-      // Checar colunas
-      if(board[0][i] == board[1][i] && board[0][i] == board[2][i]
-        && (board[0][i] == 'X' || board[0][i] == 'O')) {
-        return true;
-      }
+    //alert("Testing\n" + node.toString());
+    //console.log("Testing\n" + node.toString());
+    if(node.isTerminal() || node.gn == 8)
+      return node;
+    if(maximizingPlayer) {
+      let bestNode:State = node.getChilds('O')[0];
+      node.getChilds('O').forEach(child => {
+        bestNode = this.minimax(child, depth + 1, false).getHn() > bestNode.getHn() ? child : bestNode;
+      })
+      //alert("Best node MAX\n" + bestNode.toString());
+      console.log("Best MAX\n" + node.toString());
+      return bestNode;
+    } else { // Minimizing
+      let bestNode:State = node.getChilds('X')[0];
+      node.getChilds('X').forEach(child => {
+        bestNode = this.minimax(child, depth + 1, true).getHn() < bestNode.getHn() ? child : bestNode;
+      })
+      //alert("Best node MIN\n" + bestNode.toString());
+      console.log("Best MIN\n" + node.toString());
+      return bestNode;
     }
-
-    // Checar diagonais
-    if(((board[0][0] == board[1][1] && board[0][0] == board[2][2])
-      || (board[0][2] == board[1][1] && board[0][2] == board[2][0]))
-      && (board[1][1] == 'X' || board[1][1] == 'O')) {
-        return true;
-    }
-
-    // Checar empate
-    for(let i = 0; i < 3; i++)
-      for(let j = 0; j < 3; j++){
-        if(board[i][j] == ' ')
-          return false;
-      }
-    return true;
   }
 }

@@ -31,28 +31,28 @@
         </thead>
         <tbody>
           <tr>
-            <td class="c00"><input type="button" [class]="cellColor(board[0][0])"
-              value="{{ board[0][0] }}" (click)="play(0, 0)" [disabled]="buttonsActive"></td>
-            <td class="c01"><input type="button" [class]="cellColor(board[0][1])"
-              value="{{ board[0][1] }}" (click)="play(0, 1)" [disabled]="buttonsActive"></td>
-            <td class="c02"><input type="button" [class]="cellColor(board[0][2])" 
-              value="{{ board[0][2] }}" (click)="play(0, 2)" [disabled]="buttonsActive"></td>
+            <td class="c00"><input type="button" [class]="cellColor(mainState.board[0][0])"
+              value="{{ mainState.board[0][0] }}" (click)="play(0, 0)" [disabled]="buttonsActive"></td>
+            <td class="c01"><input type="button" [class]="cellColor(mainState.board[0][1])"
+              value="{{ mainState.board[0][1] }}" (click)="play(0, 1)" [disabled]="buttonsActive"></td>
+            <td class="c02"><input type="button" [class]="cellColor(mainState.board[0][2])" 
+              value="{{ mainState.board[0][2] }}" (click)="play(0, 2)" [disabled]="buttonsActive"></td>
           </tr>
           <tr>
-            <td class="c10"><input type="button" [class]="cellColor(board[1][0])" 
-              value="{{ board[1][0] }}" (click)="play(1, 0)" [disabled]="buttonsActive"></td>
-            <td class="c11"><input type="button" [class]="cellColor(board[1][1])" 
-              value="{{ board[1][1] }}" (click)="play(1, 1)" [disabled]="buttonsActive"></td>
-            <td class="c12"><input type="button" [class]="cellColor(board[1][2])" 
-              value="{{ board[1][2] }}" (click)="play(1, 2)" [disabled]="buttonsActive"></td>
+            <td class="c10"><input type="button" [class]="cellColor(mainState.board[1][0])" 
+              value="{{ mainState.board[1][0] }}" (click)="play(1, 0)" [disabled]="buttonsActive"></td>
+            <td class="c11"><input type="button" [class]="cellColor(mainState.board[1][1])" 
+              value="{{ mainState.board[1][1] }}" (click)="play(1, 1)" [disabled]="buttonsActive"></td>
+            <td class="c12"><input type="button" [class]="cellColor(mainState.board[1][2])" 
+              value="{{ mainState.board[1][2] }}" (click)="play(1, 2)" [disabled]="buttonsActive"></td>
           </tr>
           <tr>
-            <td class="c20"><input type="button" [class]="cellColor(board[2][0])" 
-              value="{{ board[2][0] }}" (click)="play(2, 0)" [disabled]="buttonsActive"></td>
-            <td class="c21"><input type="button" [class]="cellColor(board[2][1])" 
-              value="{{ board[2][1] }}" (click)="play(2, 1)" [disabled]="buttonsActive"></td>
-            <td class="c22"><input type="button" [class]="cellColor(board[2][2])" 
-              value="{{ board[2][2] }}" (click)="play(2, 2)" [disabled]="buttonsActive"></td>
+            <td class="c20"><input type="button" [class]="cellColor(mainState.board[2][0])" 
+              value="{{ mainState.board[2][0] }}" (click)="play(2, 0)" [disabled]="buttonsActive"></td>
+            <td class="c21"><input type="button" [class]="cellColor(mainState.board[2][1])" 
+              value="{{ mainState.board[2][1] }}" (click)="play(2, 1)" [disabled]="buttonsActive"></td>
+            <td class="c22"><input type="button" [class]="cellColor(mainState.board[2][2])" 
+              value="{{ mainState.board[2][2] }}" (click)="play(2, 2)" [disabled]="buttonsActive"></td>
           </tr>
         </tbody>
       </table>
