@@ -7,36 +7,54 @@ export class Player2Service {
 
   constructor() { }
 
-  play(board:string[][]) {
-    let currentState: State = new State(board, 0, null, [0, 0]);
+  move:number[];
 
-    let bestNode:State = this.minimax(currentState, currentState.gn, true);
-
-    return bestNode.played;
+  play(currentState:State) {
+    this.move = [];
+    this.minimax(currentState, true);
+    return this.move;
   }
 
-  minimax(node: State, depth:number, maximizingPlayer:boolean) {
+  minimax(node: State, maximizingPlayer:boolean) {
+    let scores:number [] = new Array(0);
+    let moves:number[][] = [];
 
-    //alert("Testing\n" + node.toString());
-    //console.log("Testing\n" + node.toString());
-    if(node.isTerminal() || node.gn == 8)
-      return node;
+    if(node.isTerminal()){
+      return node.getHn();
+    }
     if(maximizingPlayer) {
-      let bestNode:State = node.getChilds('O')[0];
-      node.getChilds('O').forEach(child => {
-        bestNode = this.minimax(child, depth + 1, false).getHn() > bestNode.getHn() ? child : bestNode;
+      let childs:State[] = node.getChilds('O');
+      let maxScore:number = -Infinity;
+      let maxScoreIndex:number = 0;
+      childs.forEach(child => {
+        moves.push(child.played);
+        scores.push(this.minimax(child, false));
       })
-      //alert("Best node MAX\n" + bestNode.toString());
-      console.log("Best MAX\n" + node.toString());
-      return bestNode;
+
+      for (let i = 0; i < scores.length; i++) {
+        if(scores[i] > maxScore) {
+          maxScore = scores[i];
+          maxScoreIndex = i;
+        }
+      }
+      this.move = moves[maxScoreIndex];
+      return maxScore;
     } else { // Minimizing
-      let bestNode:State = node.getChilds('X')[0];
-      node.getChilds('X').forEach(child => {
-        bestNode = this.minimax(child, depth + 1, true).getHn() < bestNode.getHn() ? child : bestNode;
+      let childs:State[] = node.getChilds('X');
+      let minScore:number = Infinity;
+      let minScoreIndex:number = 0;
+      childs.forEach(child => {
+        moves.push(child.played);
+        scores.push(this.minimax(child, true));
       })
-      //alert("Best node MIN\n" + bestNode.toString());
-      console.log("Best MIN\n" + node.toString());
-      return bestNode;
+      for (let i = 0; i < scores.length; i++) {
+        if(scores[i] < minScore) {
+          minScore = scores[i];
+          minScoreIndex = i;
+        }
+      }
+      this.move = moves[minScoreIndex];
+      return minScore;
     }
   }
 }

@@ -1,6 +1,6 @@
 export class State {
     board: string[][] = [[],[],[]];
-    gn: number;
+    depth: number;
     fn: number;
     parent: State
     played:number[] = [0, 0];
@@ -15,7 +15,7 @@ export class State {
 
         this.played[0] = played[0];
         this.played[1] = played[1];
-        this.gn = depth;
+        this.depth = depth;
         this.parent = parent;
     }
 
@@ -28,7 +28,7 @@ export class State {
     }
 
     copy(state: State) {
-        return new State(state.board, state.gn, state.parent, state.played);
+        return new State(state.board, state.depth, state.parent, state.played);
     }
 
     setParent(state: State) {
@@ -48,7 +48,8 @@ export class State {
             string += "["+this.board[i][0]+","+this.board[i][1]+","+this.board[i][2]+"]\n";
         string += "terminal ? " + this.isTerminal() + 
         "\nPlayed (" + this.played[0] + ", " + this.played[1] + ")" +
-        "\ng(n) = " + this.gn;
+        "\nhn(n) = " + this.getHn() +
+        "\nDepth " + this.depth;
 
         return string;
     }
@@ -62,7 +63,7 @@ export class State {
                     let child = this.copy(this).setParent(this);
                     child.setPlayed(i, j);
                     child.board[i][j] = player;
-                    child.gn++;
+                    child.depth++;
                     childs.push(child);
                 }
             }
@@ -76,13 +77,13 @@ export class State {
           // Checar linhas
           if(this.board[i][0] == this.board[i][1] && this.board[i][0] == this.board[i][2]
             && (this.board[i][0] == 'X' || this.board[i][0] == 'O')) {
-            return this.board[i][0] == 'X' ? 1:-1;
+            return this.board[i][0] == 'X' ? this.depth - 10:10 - this.depth;
           }
 
           // Checar colunas
           if(this.board[0][i] == this.board[1][i] && this.board[0][i] == this.board[2][i]
             && (this.board[0][i] == 'X' || this.board[0][i] == 'O')) {
-            return this.board[i][0] == 'X' ? 1:-1;
+            return this.board[0][i] == 'X' ? this.depth - 10:10 - this.depth;
           }
         }
 
@@ -90,7 +91,7 @@ export class State {
         if(((this.board[0][0] == this.board[1][1] && this.board[0][0] == this.board[2][2])
           || (this.board[0][2] == this.board[1][1] && this.board[0][2] == this.board[2][0]))
           && (this.board[1][1] == 'X' || this.board[1][1] == 'O')) {
-            return this.board[1][1] == 'X' ? 1:-1;
+            return this.board[1][1] == 'X' ? this.depth - 10:10 - this.depth;
         }
         return 0;
     }

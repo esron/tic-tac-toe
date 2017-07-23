@@ -28,27 +28,31 @@ export class AppComponent {
   play(lin: number, col:number) {
     if(this.mainState.board[lin][col] == ' '){
       this.mainState.board[lin][col] = this.player;
+      if(this.checkWin()){
+        this.buttonsActive = "disabled";
+        return;
+      }
       if (this.selectedGameMode == "2 jogadores") {
         if(this.player == 'X')
           this.player = 'O';
         else
           this.player = 'X';
         this.mainState.setPlayed(lin, col);
-        console.log(this.mainState.toString());
       }
       else {
         if(this.player == 'X') {
           this.player = 'O';
           this.mainState.setPlayed(lin, col);
-          let arr = this.player2.play(this.mainState.board);
+          let arr = this.player2.play(this.mainState);
           this.mainState.board[arr[0]][arr[1]] = this.player;
+          if(this.checkWin()){
+            this.buttonsActive = "disabled";
+            return;
+          }
           this.player = 'X';
         }
       }
     }
-    
-    if(this.checkWin())
-      this.buttonsActive = "disabled";
   }
 
   resetBoard() {
@@ -121,5 +125,11 @@ export class AppComponent {
       case ' ':
         return "btn btn-lg";
     }
+  }
+
+  testAI() {
+    this.player = 'O';
+    let move = this.player2.play(this.mainState);
+    this.play(move[0], move[1]);
   }
 }

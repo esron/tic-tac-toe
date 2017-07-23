@@ -20,7 +20,12 @@
           <option>1 jogador</option>
         </select>
       </div>
-      <input type="button" class="btn" (click)="resetBoard()" value="Limpar Tabuleiro">
+      <div class="form-group">
+        <input type="button" class="btn" (click)="resetBoard()" value="Limpar Tabuleiro">
+      </div>
+      <div class="form-group">
+        <input type="button" class="btn" (click)="testAI()" value="Testar I.A." [disabled]="buttonsActive">
+      </div>
     </div>
     <div class="col-sm-6 text-center"> 
       <table class="table table-bordered">
