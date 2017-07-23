@@ -22,7 +22,7 @@ export class AppComponent {
   mainState: State;
 
   constructor (private player2: Player2Service) {
-    this.mainState = new State([[' ', ' ', ' '], [' ', ' ', ' '], [' ', ' ', ' ']], 0, null, [0, 0]);
+    this.mainState = new State([[' ', ' ', ' '], [' ', ' ', ' '], [' ', ' ', ' ']], 0, [0, 0]);
   }
 
   play(lin: number, col:number) {
@@ -125,11 +125,5 @@ export class AppComponent {
       case ' ':
         return "btn btn-lg";
     }
-  }
-
-  testAI() {
-    this.player = 'O';
-    let move = this.player2.play(this.mainState);
-    this.play(move[0], move[1]);
   }
 }

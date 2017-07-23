@@ -1,11 +1,9 @@
 export class State {
     board: string[][] = [[],[],[]];
     depth: number;
-    fn: number;
-    parent: State
     played:number[] = [0, 0];
 
-    constructor(board: string[][], depth: number, parent: State, played:number[]) {
+    constructor(board: string[][], depth: number, played:number[]) {
         for (let i = 0; i < 3; i++) {
             this.board[i] = [];
             for (let j = 0; j < 3; j++) {
@@ -16,7 +14,6 @@ export class State {
         this.played[0] = played[0];
         this.played[1] = played[1];
         this.depth = depth;
-        this.parent = parent;
     }
 
     equals(state: State) {
@@ -27,13 +24,8 @@ export class State {
         return true;
     }
 
-    copy(state: State) {
-        return new State(state.board, state.depth, state.parent, state.played);
-    }
-
-    setParent(state: State) {
-        this.parent = state;
-        return this;
+    copy() {
+        return new State(this.board, this.depth, this.played);
     }
 
     setPlayed(i:number, j:number) {
@@ -60,7 +52,7 @@ export class State {
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 3; j++) {
                 if(this.board[i][j] == ' ') {
-                    let child = this.copy(this).setParent(this);
+                    let child = this.copy();
                     child.setPlayed(i, j);
                     child.board[i][j] = player;
                     child.depth++;
